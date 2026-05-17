@@ -16,12 +16,26 @@ class Employee:
         self.is_active = False
         return f"{self.name} has been deactivated"
     
+class Manager(Employee):
+    def __init__(self, name, salary, department, team_size):
+        super().__init__(name, salary, department)
+        self.team_size = team_size
+        self.reports = []
+    
+    def add_report(self, employee):
+        self.reports.append(employee)
+        return f"{employee.name} now reports to {self.name}"
+    
+    def get_info(self):
+        base = super().get_info()
+        return f"{base} | Team size: {self.team_size}"
 
+manager = Manager("Sarah", 90000, "Engineering", 5)
 emp1 = Employee("Marcos", 50000, "Engineering")
-emp2 = Employee("Sarah", 75000, "Management")
+emp2 = Employee("Juan", 75000, "Engineering")
 
-print(emp1.get_info())
-print(emp2.get_info())
-print(emp1.give_raise(5000))
-print(emp1.get_info())
-print(emp2.deactivate())
+print(manager.get_info())
+print(manager.add_report(emp1))
+print(manager.add_report(emp2))
+print(f"{manager.name} manages: {[e.name for e in manager.reports]}")
+print(manager.give_raise(10000))
